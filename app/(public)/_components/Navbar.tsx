@@ -22,28 +22,13 @@ import {
   LogOut,
   Settings,
 } from "lucide-react";
+import { useSignOut } from "@/hooks/use-signout";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useTransition } from "react";
 
 export function Navbar() {
-  const router = useRouter();
   const { data: session, isPending } = authClient.useSession();
-  const [isSigningOut, startSignOut] = useTransition();
-
-  function signOut() {
-    startSignOut(async () => {
-      await authClient.signOut({
-        fetchOptions: {
-          onSuccess: () => {
-            router.push("/");
-            router.refresh();
-          },
-        },
-      });
-    });
-  }
+  const { signOut, isPending: isSigningOut } = useSignOut();
 
   const userInitials =
     session?.user?.name
@@ -180,7 +165,7 @@ export function Navbar() {
 
                 <DropdownMenuItem
                   variant="destructive"
-                  onClick={signOut}
+                  onClick={() => signOut()}
                   disabled={isSigningOut}
                 >
                   {isSigningOut ? (

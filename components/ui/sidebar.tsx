@@ -497,28 +497,34 @@ const sidebarMenuButtonVariants = cva(
 )
 
 function SidebarMenuButton({
+  asChild = false,
   render,
   isActive = false,
   variant = "default",
   size = "default",
   tooltip,
   className,
+  children,
   ...props
-}: useRender.ComponentProps<"button"> &
-  React.ComponentProps<"button"> & {
-    isActive?: boolean
-    tooltip?: string | React.ComponentProps<typeof TooltipContent>
-  } & VariantProps<typeof sidebarMenuButtonVariants>) {
+}: React.ComponentProps<"button"> & {
+  asChild?: boolean
+  render?: useRender.ComponentProps<"button">["render"]
+  isActive?: boolean
+  tooltip?: string | React.ComponentProps<typeof TooltipContent>
+} & VariantProps<typeof sidebarMenuButtonVariants>) {
   const { isMobile, state } = useSidebar()
+  const finalRender =
+    asChild && React.isValidElement(children) ? children : render
+
   const comp = useRender({
     defaultTagName: "button",
     props: mergeProps<"button">(
       {
         className: cn(sidebarMenuButtonVariants({ variant, size }), className),
       },
-      props
+      asChild ? props : { children, ...props }
     ),
-    render: !tooltip ? render : <TooltipTrigger render={render} />,
+    render: !tooltip ? finalRender : <TooltipTrigger render={finalRender} />,
     state: {
       slot: "sidebar-menu-button",
       sidebar: "menu-button",
@@ -664,16 +670,22 @@ function SidebarMenuSubItem({
 }
 
 function SidebarMenuSubButton({
+  asChild = false,
   render,
   size = "md",
   isActive = false,
   className,
+  children,
   ...props
-}: useRender.ComponentProps<"a"> &
-  React.ComponentProps<"a"> & {
-    size?: "sm" | "md"
-    isActive?: boolean
-  }) {
+}: React.ComponentProps<"a"> & {
+  asChild?: boolean
+  render?: useRender.ComponentProps<"a">["render"]
+  size?: "sm" | "md"
+  isActive?: boolean
+}) {
+  const finalRender =
+    asChild && React.isValidElement(children) ? children : render
+
   return useRender({
     defaultTagName: "a",
     props: mergeProps<"a">(
@@ -683,9 +695,9 @@ function SidebarMenuSubButton({
           className
         ),
       },
-      props
+      asChild ? props : { children, ...props }
     ),
-    render,
+    render: finalRender,
     state: {
       slot: "sidebar-menu-sub-button",
       sidebar: "menu-sub-button",
