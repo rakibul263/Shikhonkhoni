@@ -28,16 +28,14 @@ export function NavMain({
     items.find((item) => item.title.toLowerCase() === "dashboard") || items[0];
   const otherItems = items.filter((item) => item !== dashboardItem);
 
-  // Dashboard is active when visiting /admin, or if it matches dashboard URL,
-  // or on initial entry if no other specific route is active
+  // Exact route checks
+  const isQuickCreateActive = pathname === "/admin/courses/create";
   const isDashboardActive =
     dashboardItem?.isActive ??
-    (pathname === "/admin" ||
-      pathname === "/admin/dashboard" ||
-      pathname === dashboardItem?.url ||
-      !otherItems.some(
-        (item) => item.url !== "#" && pathname?.startsWith(item.url),
-      ));
+    (!isQuickCreateActive &&
+      (pathname === "/admin" ||
+        pathname === "/admin/dashboard" ||
+        pathname === dashboardItem?.url));
 
   return (
     <SidebarGroup>
@@ -52,8 +50,8 @@ export function NavMain({
                 isActive={isDashboardActive}
                 className={
                   isDashboardActive
-                    ? "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground font-medium"
-                    : ""
+                    ? "bg-primary text-primary-foreground font-semibold shadow-xs hover:bg-primary/90 hover:text-primary-foreground"
+                    : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-foreground"
                 }
               >
                 <Link
@@ -73,11 +71,11 @@ export function NavMain({
             <SidebarMenuButton
               asChild
               tooltip="Quick Create"
-              isActive={pathname === "/admin/courses/create"}
+              isActive={isQuickCreateActive}
               className={
-                pathname === "/admin/courses/create"
-                  ? "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground font-medium"
-                  : ""
+                isQuickCreateActive
+                  ? "bg-primary text-primary-foreground font-semibold shadow-xs hover:bg-primary/90 hover:text-primary-foreground"
+                  : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-foreground"
               }
             >
               <Link href="/admin/courses/create" className="flex">
@@ -91,7 +89,8 @@ export function NavMain({
           {otherItems.map((item) => {
             const isItemActive =
               item.isActive ??
-              (item.url !== "#" &&
+              (!isQuickCreateActive &&
+                item.url !== "#" &&
                 (pathname === item.url ||
                   pathname?.startsWith(item.url + "/")));
 
@@ -103,8 +102,8 @@ export function NavMain({
                   isActive={isItemActive}
                   className={
                     isItemActive
-                      ? "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground font-medium"
-                      : ""
+                      ? "bg-primary text-primary-foreground font-semibold shadow-xs hover:bg-primary/90 hover:text-primary-foreground"
+                      : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-foreground"
                   }
                 >
                   <Link href={item.url}>

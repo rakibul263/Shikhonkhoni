@@ -16,6 +16,8 @@ model User {
   updatedAt     DateTime      @updatedAt @db.Timestamptz(3)
   sessions      Session[]
   accounts      Account[]
+  courses       Course[]
+  lessonProgress LessonProgress[]
 
   @@map("user")
 }
@@ -65,4 +67,99 @@ model Verification {
 
   @@index([identifier], map: "verification_identifier_idx")
   @@map("verification")
+}
+
+model Course {
+  id String @id @default(uuid())
+
+  title String
+  description String
+  fileKey String
+  price Int
+  duration Int
+  level courseLevel @default(BEGINNER)
+
+  category String
+  smallDescription String
+  slug String @unique
+
+  status courseStatus @default(DRAFT)
+
+  createAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  userId String
+  User User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  chapters Chapter[]
+}
+
+model Chapter {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  position    Int
+  isPublished Boolean  @default(false)
+  isFree      Boolean  @default(false)
+
+  courseId    String
+  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  lessons     Lesson[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([courseId])
+}
+
+model Lesson {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  videoUrl    String?
+  fileKey     String?
+  position    Int
+  isPublished Boolean  @default(false)
+  isFree      Boolean  @default(false)
+
+  chapterId   String
+  chapter     Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  userProgress LessonProgress[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([chapterId])
+}
+
+model LessonProgress {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  lessonId    String
+  lesson      Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  isCompleted Boolean  @default(false)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, lessonId])
+  @@index([lessonId])
+  @@index([userId])
+}
+
+enum courseLevel{
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum courseStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
 }

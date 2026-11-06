@@ -14,6 +14,15 @@ export const env = createEnv({
       .string()
       .min(1)
       .default("Shikhonkhoni <onboarding@resend.dev>"),
+    CLOUDINARY_CLOUD_NAME: z.string().optional(),
+    CLOUDINARY_API_KEY: z.string().optional(),
+    CLOUDINARY_API_SECRET: z.string().optional(),
   },
-  experimental__runtimeEnv: {},
+  client: {
+    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: z.string().optional(),
+  },
+  experimental__runtimeEnv: {
+    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME:
+      process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+  },
 });
