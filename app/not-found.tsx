@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import logoImage from "@/public/logo.png";
 import {
   BookOpen,
-  Compass,
   FileQuestion,
   Home,
   LayoutDashboard,
@@ -20,7 +19,7 @@ export default function NotFound() {
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
       >
-        <div className="relative left-[calc(50%-14rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-primary/25 via-sky-500/10 to-transparent opacity-50 sm:left-[calc(50%-24rem)] sm:w-[72.1875rem] animate-pulse" />
+        <div className="relative left-[calc(50%-14rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-primary/25 via-sky-500/10 to-transparent opacity-50 sm:left-[calc(50%-24rem)] sm:w-[72.1875rem]" />
       </div>
 
       <div
@@ -70,31 +69,28 @@ export default function NotFound() {
             variant="outline"
             className="px-4 py-1.5 text-xs sm:text-sm font-medium rounded-full border-primary/20 bg-primary/5 text-primary backdrop-blur-sm gap-2 shadow-sm inline-flex items-center mb-6"
           >
-            <Sparkles className="size-3.5 text-primary animate-pulse" />
-            404 Error • Page Not Found
+            <Sparkles className="size-3.5 text-primary" />
+            <span>404 Error • Page Not Found</span>
           </Badge>
 
-          {/* Animated Logo + Big 404 Display */}
+          {/* Logo + Big 404 Display */}
           <div className="relative my-4 select-none flex flex-col items-center justify-center">
-            {/* Glowing animated backdrop */}
-            <div className="absolute size-44 rounded-full bg-primary/15 blur-3xl animate-pulse" />
-
             <div className="relative flex items-center justify-center gap-4">
               <span className="text-7xl sm:text-9xl font-black tracking-tighter bg-gradient-to-b from-foreground via-foreground/75 to-foreground/20 bg-clip-text text-transparent">
                 4
               </span>
 
-              {/* Animated Floating Logo in center of 404 */}
-              <div className="relative size-20 sm:size-28 rounded-3xl bg-card border-2 border-primary/30 flex items-center justify-center shadow-xl shadow-primary/10 transition-transform duration-500 hover:scale-105">
+              {/* Logo in center of 404 */}
+              <div className="relative size-20 sm:size-28 rounded-3xl bg-card border-2 border-primary/30 flex items-center justify-center shadow-xl shadow-primary/10">
                 <Image
                   src={logoImage}
                   alt="ShikhonKhoni"
                   width={64}
                   height={64}
-                  className="size-14 sm:size-18 object-contain animate-bounce"
+                  className="size-14 sm:size-18 object-contain"
                   priority
                 />
-                <div className="absolute -bottom-2 -right-2 size-7 rounded-full bg-primary text-primary-foreground border-2 border-background flex items-center justify-center shadow-md animate-pulse">
+                <div className="absolute -bottom-2 -right-2 size-7 rounded-full bg-primary text-primary-foreground border-2 border-background flex items-center justify-center shadow-md">
                   <FileQuestion className="size-3.5" />
                 </div>
               </div>
@@ -136,65 +132,6 @@ export default function NotFound() {
                 <span>Admin Dashboard</span>
               </Link>
             </Button>
-          </div>
-
-          {/* Helpful Quick Links Cards in Clean English */}
-          <div className="mt-14 w-full pt-10 border-t border-border/50">
-            <p className="text-xs uppercase tracking-wider text-muted-foreground font-semibold mb-4">
-              Helpful Destinations
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-left">
-              <Link
-                href="/"
-                className="group p-3.5 rounded-xl border border-border/60 bg-card hover:bg-accent hover:border-primary/30 transition-all flex items-start gap-3"
-              >
-                <div className="p-2 rounded-lg bg-primary/10 text-primary group-hover:scale-105 transition-transform">
-                  <Compass className="size-4" />
-                </div>
-                <div>
-                  <div className="text-sm font-semibold group-hover:text-primary transition-colors">
-                    Home
-                  </div>
-                  <div className="text-xs text-muted-foreground mt-0.5">
-                    Return to the main portal
-                  </div>
-                </div>
-              </Link>
-
-              <Link
-                href="/courses"
-                className="group p-3.5 rounded-xl border border-border/60 bg-card hover:bg-accent hover:border-sky-500/30 transition-all flex items-start gap-3"
-              >
-                <div className="p-2 rounded-lg bg-sky-500/10 text-sky-500 group-hover:scale-105 transition-transform">
-                  <BookOpen className="size-4" />
-                </div>
-                <div>
-                  <div className="text-sm font-semibold group-hover:text-sky-500 transition-colors">
-                    Explore Courses
-                  </div>
-                  <div className="text-xs text-muted-foreground mt-0.5">
-                    Browse all available lessons
-                  </div>
-                </div>
-              </Link>
-
-              <Link
-                href="/admin/courses"
-                className="group p-3.5 rounded-xl border border-border/60 bg-card hover:bg-accent hover:border-emerald-500/30 transition-all flex items-start gap-3"
-              >
-                <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-500 group-hover:scale-105 transition-transform">
-                  <LayoutDashboard className="size-4" />
-                </div>
-                <div>
-                  <div className="text-sm font-semibold group-hover:text-emerald-500 transition-colors">
-                    Course Management
-                  </div>
-                  <div className="text-xs text-muted-foreground mt-0.5">
-                    Admin courses dashboard
-                  </div>
-                </div>
-              </Link>
-            </div>
           </div>
         </div>
       </main>
